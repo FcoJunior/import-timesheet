@@ -27,11 +27,11 @@ export const main = async () => {
 
     const listGrouped = grouped<Timesheet>(timesheets, 'Start_date');
 
-    listGrouped.forEach(group => {
+    for await (const group of listGrouped) {
         // eslint-disable-next-line no-console
         console.log('\n🚩 Importing date: ', group.key);
 
-        group.items.forEach(async item => {
+        for await (const item of group.items) {
             const workItem: IssueWorkItem = {
                 usesMarkdown: true,
                 date: moment(item.Start_date, 'DD-MM-YY').valueOf(),
@@ -61,6 +61,6 @@ export const main = async () => {
             );
 
             log('\n🟢 Timesheet integrated ==> ' + issueWorkItem.id);
-        });
-    });
+        }
+    }
 };
